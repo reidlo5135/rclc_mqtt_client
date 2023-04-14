@@ -1,6 +1,6 @@
 #include "../include/mqtt.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
     struct mosquitto *mosq = NULL;
 
     mosquitto_lib_init();
