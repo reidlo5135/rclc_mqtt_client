@@ -2,8 +2,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <mosquitto.h>
 #include <stdio.h>
+#include "./mosquitto.h"
 
 #define MQTT_HOSTNAME "localhost" 
 #define MQTT_PORT 1883

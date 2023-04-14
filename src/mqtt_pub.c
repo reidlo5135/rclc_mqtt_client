@@ -1,4 +1,4 @@
-#include "include/mqtt.h"
+#include "../include/mqtt.h"
 
 int main(int argc, char **argv) {
     struct mosquitto *mosq = NULL;
