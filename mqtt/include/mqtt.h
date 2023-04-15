@@ -3,11 +3,11 @@
 #include <string.h>
 #include "MQTTClient.h"
 
-#define LOG_TOPIC   "[MQTT]"
+#define LOG_MQTT    "[MQTT]"
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "1h1h"
 #define TOPIC       "reidlo"
-#define PAYLOAD     "Hello World!"
+#define PAYLOAD     "test!"
 #define QOS         1
 #define TIMEOUT     10000L
 
