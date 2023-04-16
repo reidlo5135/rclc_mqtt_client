@@ -1,4 +1,4 @@
-#include "../include/mqtt.h"
+#include "../include/mqtt/mqtt.h"
 
 int main(int argc, char* argv[]) {
     MQTTClient client;

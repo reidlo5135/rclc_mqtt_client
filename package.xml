@@ -3,14 +3,27 @@
 <package format="3">
   <name>rclc_mqtt_client</name>
   <version>1.0.0</version>
-  <description>ROS2-MQTT RCLC Client</description>
+  <description>RCLC Client</description>
   <maintainer email="201840103@email.daelim.ac.kr">reidlo</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <build_depend>rcl</build_depend>
+  <build_depend>rclc</build_depend>
+  <build_depend>rclc_lifecycle</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>lifecycle_msgs</build_depend>
+  <build_depend>example_interfaces</build_depend>
+
+  <exec_depend>rcl</exec_depend>
+  <exec_depend>rclc</exec_depend>
+  <exec_depend>rclc_lifecycle</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>lifecycle_msgs</exec_depend>
+  <exec_depend>example_interfaces</exec_depend>
+
+  <depend>rclc_parameter</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
