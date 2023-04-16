@@ -20,34 +20,38 @@ int main(int argc, const char * argv[]) {
   rcl_subscription_t subscription_topic;
   std_msgs__msg__String message;
 
+  // create rclc init options
   rc = rclc_support_init(&support, argc, argv, &allocator);
   if (rc != RCL_RET_OK) {
     printf("%s Error rclc_support_init.\n", LOG_ROS);
     return -1;
+  } else {
+    printf("%s rclc_support_init made \n", LOG_ROS);
+  }
+
+  // create rcl node
+  rcl_node_t tester_chatter = rcl_get_zero_initialized_node();
+  rc = rclc_node_init_default(&tester_chatter, "tester_chatter", "", &support);
+  if(rc != RCL_RET_OK) {
+    printf("%s Error in rclc_node_init_default \n", LOG_ROS);
+    return -1;
+  } else {
+    printf("%s rclc_node_init made \n", LOG_ROS);
   }
 
   const rosidl_message_type_support_t * message_type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
 
-  rcl_node_t tester_chatter = rcl_get_zero_initialized_node();
-  rc = rclc_node_init_default(&tester_chatter, "tester_chatter", "rclc_mqtt_client", &support);
-  if(rc != RCL_RET_OK) {
-    printf("%s Error in rclc_node_init_default \n", LOG_ROS);
+  subscription_topic = rcl_get_zero_initialized_subscription();
+  rc = rclc_subscription_init_default(&subscription_topic, &tester_chatter, message_type_support, topic);
+
+  if (rc != RCL_RET_OK) {
+    printf("%s Failed to create subscriber %s.\n", LOG_ROS, topic);
     return -1;
+  } else {
+    printf("%s Created subscriber %s \n", LOG_ROS, topic);
   }
 
-  while(RCL_RET_OK) {
-    subscription_topic = rcl_get_zero_initialized_subscription();
-    rc = rclc_subscription_init_default(&topic, &tester_chatter, message_type_support, topic);
-
-    if (rc != RCL_RET_OK) {
-      printf("%s Failed to create subscriber %s.\n", LOG_ROS, topic);
-      return -1;
-    } else {
-      printf("%s Created subscriber %s:\n", LOG_ROS, topic);
-    }
-
-    std_msgs__msg__String__init(&message);
-  }
+  std_msgs__msg__String__init(&message);
 
   rclc_executor_t executor;
   executor = rclc_executor_get_zero_initialized_executor();
@@ -62,7 +66,9 @@ int main(int argc, const char * argv[]) {
       return -1;
   }
 
-  rc = rclc_executor_spin_some(&executor, 1000 * (1000 * 1000));
+  while(rc == RCL_RET_OK) {
+    rc = rclc_executor_spin(&executor);
+  }
 
   // rc = rclc_executor_fini(&executor);
 
