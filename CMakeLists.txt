@@ -25,16 +25,17 @@ find_package(lifecycle_msgs REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(rclc_parameter REQUIRED)
 
-include_directories(
-  include,
-  "/opt/ros/foxy/include/rclc/"
-)
+include_directories(include)
 
-add_executable(subscription src/subscription.c)
-ament_target_dependencies(subscription rcl rclc std_msgs)
+add_executable(rclc_subscription src/rclc_subscription.c)
+ament_target_dependencies(rclc_subscription rcl rclc std_msgs)
+
+add_executable(rclc_chatter src/rclc_chatter.c)
+ament_target_dependencies(rclc_chatter rcl rclc std_msgs)
 
 install(TARGETS
-  subscription
+  rclc_subscription
+  rclc_chatter
   DESTINATION lib/${PROJECT_NAME}
 )
 
