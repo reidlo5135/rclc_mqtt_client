@@ -1,4 +1,4 @@
-#include "../include/mqtt.h"
+#include "../include/mqtt/mqtt.h"
 
 void delivered(void *context, MQTTClient_deliveryToken dt) {
     printf("%s subscription message with token value %d delivery confirmed \n", LOG_MQTT, dt);
