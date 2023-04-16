@@ -1,4 +1,4 @@
-#include "../../include/mqtt/mqtt.h"
+#include "mqtt/mqtt.h"
 
 int mqtt_publish(char * topic, char * payload) {
     MQTTClient client;
@@ -10,17 +10,13 @@ int mqtt_publish(char * topic, char * payload) {
     if ((rc = MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL)) != MQTTCLIENT_SUCCESS) {
          printf("%s Failed to create client, return code %d\n", LOG_MQTT, rc);
          exit(EXIT_FAILURE);
-    } else {
-        printf("%s create client \n", LOG_MQTT);
     }
- 
+
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) {
         printf("%s Failed to connect, return code %d\n", LOG_MQTT, rc);
         exit(EXIT_FAILURE);
-    } else {
-        printf("%s connected \n", LOG_MQTT);
     }
  
     pubmsg.payload = &payload;
@@ -38,22 +34,22 @@ int mqtt_publish(char * topic, char * payload) {
     rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
     printf("%s Message with delivery token %d delivered\n", LOG_MQTT, token);
  
-    if ((rc = MQTTClient_disconnect(client, 10000)) != MQTTCLIENT_SUCCESS) {
-        printf("%s Failed to disconnect, return code %d\n", LOG_MQTT, rc);
-    } else {
-        printf("%s disconnected \n", LOG_MQTT);
-    }
+    // if ((rc = MQTTClient_disconnect(client, 10000)) != MQTTCLIENT_SUCCESS) {
+    //     printf("%s Failed to disconnect, return code %d\n", LOG_MQTT, rc);
+    // } else {
+    //     printf("%s disconnected \n", LOG_MQTT);
+    // }
       
-    MQTTClient_destroy(&client);
+    // MQTTClient_destroy(&client);
     return rc;
 }
 
-void delivered(void * context, MQTTClient_deliveryToken dt) {
+void delivered(MQTTClient_deliveryToken dt) {
     printf("%s subscription message with token value %d delivery confirmed \n", LOG_MQTT, dt);
     deliveredtoken = dt;
 }
 
-int message_arrived(void * context, char * topic, int topic_length, MQTTClient_message * message) {
+int message_arrived(char * topic, int topic_length, MQTTClient_message * message) {
     printf("%s message arrived \n", LOG_MQTT);
     printf("%s topic : %s \n", LOG_MQTT, topic);
     printf("%s message : %.*s \n", LOG_MQTT, message -> payloadlen, (char*)message -> payload);
@@ -62,7 +58,7 @@ int message_arrived(void * context, char * topic, int topic_length, MQTTClient_m
     return 1;
 }
 
-void connection_lost(void * context, char * cause) {
+void connection_lost(char * cause) {
     printf("%s connection lost \n", LOG_MQTT);
     printf("%s cause : %s \n", LOG_MQTT, cause);
 }
@@ -123,10 +119,4 @@ int mqtt_subscribe(char * topic) {
         MQTTClient_destroy(&client);
     exit:
         return rc;
-}
-
-int main(int argc, char * argv[]) {
-    int publish = mqtt_publish("reidlo", "hello");
-    int subscribe = mqtt_subscribe("test");
-    return 0;
 }

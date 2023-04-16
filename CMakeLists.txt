@@ -24,16 +24,19 @@ find_package(std_msgs REQUIRED)
 find_package(lifecycle_msgs REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(rclc_parameter REQUIRED)
+find_library(PAHO_MQTT_C_LIB paho-mqtt3c PATHS /usr/local/lib)
 
 include_directories(
   include
   include/${PROJECT_NAME}
+  /usr/local/include
 )
 
 add_executable(rclc_subscription src/rclc_subscription.c)
 ament_target_dependencies(rclc_subscription rcl rclc std_msgs)
 
 add_executable(rclc_chatter src/rclc_chatter.c src/mqtt/mqtt.c)
+target_link_libraries(rclc_chatter ${PAHO_MQTT_C_LIB})
 ament_target_dependencies(rclc_chatter rcl rclc std_msgs)
 
 install(TARGETS
