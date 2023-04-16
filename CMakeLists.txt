@@ -25,7 +25,10 @@ find_package(lifecycle_msgs REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(rclc_parameter REQUIRED)
 
-include_directories(include)
+include_directories(
+  include
+  include/${PROJECT_NAME}
+)
 
 add_executable(rclc_subscription src/rclc_subscription.c)
 ament_target_dependencies(rclc_subscription rcl rclc std_msgs)

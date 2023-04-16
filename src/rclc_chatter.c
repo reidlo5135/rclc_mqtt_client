@@ -1,4 +1,5 @@
-#include "../include/ros2/rcl_subscription.h"
+// #include "mqtt/mqtt.h"
+#include "ros/rcl_subscription.h"
 
 void chatter_callback(const void * msgin) {
   const std_msgs__msg__String * msg = (const std_msgs__msg__String *)msgin;
@@ -6,8 +7,8 @@ void chatter_callback(const void * msgin) {
     printf("%s Callback: msg NULL\n", LOG_ROS);
   } else {
     printf("%s Callback: I heard: %s\n", LOG_ROS, msg->data.data);
+    // mqtt_publish("/chatter", msg->data.data);
   }
-
 }
 
 int main(int argc, const char * argv[]) {
@@ -17,7 +18,7 @@ int main(int argc, const char * argv[]) {
 
   const char * topic = "chatter";
 
-  rcl_subscription_t subscription_topic;
+  rcl_subscription_t rcl_subscription;
   std_msgs__msg__String message;
 
   // create rclc init options
@@ -30,8 +31,8 @@ int main(int argc, const char * argv[]) {
   }
 
   // create rcl node
-  rcl_node_t tester_chatter = rcl_get_zero_initialized_node();
-  rc = rclc_node_init_default(&tester_chatter, "tester_chatter", "", &support);
+  rcl_node_t tester_chatter_node = rcl_get_zero_initialized_node();
+  rc = rclc_node_init_default(&tester_chatter_node, "tester_chatter", "", &support);
   if(rc != RCL_RET_OK) {
     printf("%s Error in rclc_node_init_default \n", LOG_ROS);
     return -1;
@@ -41,8 +42,8 @@ int main(int argc, const char * argv[]) {
 
   const rosidl_message_type_support_t * message_type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
 
-  subscription_topic = rcl_get_zero_initialized_subscription();
-  rc = rclc_subscription_init_default(&subscription_topic, &tester_chatter, message_type_support, topic);
+  rcl_subscription = rcl_get_zero_initialized_subscription();
+  rc = rclc_subscription_init_default(&rcl_subscription, &tester_chatter_node, message_type_support, topic);
 
   if (rc != RCL_RET_OK) {
     printf("%s Failed to create subscriber %s.\n", LOG_ROS, topic);
@@ -60,7 +61,7 @@ int main(int argc, const char * argv[]) {
   printf("%s Debug : number of DDS handles :%u\n", LOG_ROS, num_handles);
   rclc_executor_init(&executor, &support.context, num_handles, &allocator);
 
-  rc = rclc_executor_add_subscription(&executor, &subscription_topic, &message, &chatter_callback, ON_NEW_DATA);
+  rc = rclc_executor_add_subscription(&executor, &rcl_subscription, &message, &chatter_callback, ON_NEW_DATA);
   if (rc != RCL_RET_OK) {
       printf("%s Error in rclc_executor_add_subscription. \n", LOG_ROS);
       return -1;
@@ -70,7 +71,16 @@ int main(int argc, const char * argv[]) {
     rc = rclc_executor_spin(&executor);
   }
 
-  // rc = rclc_executor_fini(&executor);
+  rc = rclc_executor_fini(&executor);
+  rc += rcl_subscription_fini(&rcl_subscription, &tester_chatter_node);
+  rc += rcl_node_fini(&tester_chatter_node);
+  rc += rclc_support_fini(&support);
+  std_msgs__msg__String__fini(&message);
 
+  if (rc != RCL_RET_OK) {
+    printf("%s Error while cleaning up!\n", LOG_ROS);
+    return -1;
+  }
+  
   return 0;
 }
