@@ -33,7 +33,7 @@ include_directories(
 add_executable(rclc_subscription src/rclc_subscription.c)
 ament_target_dependencies(rclc_subscription rcl rclc std_msgs)
 
-add_executable(rclc_chatter src/rclc_chatter.c)
+add_executable(rclc_chatter src/rclc_chatter.c src/mqtt/mqtt.c)
 ament_target_dependencies(rclc_chatter rcl rclc std_msgs)
 
 install(TARGETS
