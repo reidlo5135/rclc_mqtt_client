@@ -1,3 +1,4 @@
+#include "mqtt/mqtt.h"
 #include "ros/rcl_chatter.h"
 
 void chatter_callback(const void * msgin) {
