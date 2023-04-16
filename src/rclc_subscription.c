@@ -1,4 +1,4 @@
-#include "../include/ros2/subscription.h"
+#include "../include/ros2/rcl_subscription.h"
 
 void my_subscriber_callback_with_context(const void * msgin, void * context_void_ptr) {
   const std_msgs__msg__String * msg = (const std_msgs__msg__String *)msgin;
@@ -24,7 +24,7 @@ int main(int argc, const char * argv[]) {
   rcl_ret_t rc;
 
   const unsigned int n_topics = 3;
-  const char * topic_names[] = {"topic_foo", "topic_bar", "topic_baz"};
+  const char * topic_names[] = {"/chatter"};
   sub_context_t my_contexts[] = {
     {0, "foo counting from zero"},
     {100, "bar counting from 100"},
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[]) {
     for (unsigned int i = 0; i < n_topics; i++) {
       rc = rcl_publish(&my_pubs[i], &pub_msgs[i], NULL);
       if (rc == RCL_RET_OK) {
-        printf("%s \nPublished message %s\n", LOG_ROS, pub_msgs[i].data.data);
+        printf("%s Published message %s\n", LOG_ROS, pub_msgs[i].data.data);
       } else {
         printf("%s Error publishing message %s\n", LOG_ROS, pub_msgs[i].data.data);
       }

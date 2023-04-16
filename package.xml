@@ -3,7 +3,7 @@
 <package format="3">
   <name>rclc_mqtt_client</name>
   <version>1.0.0</version>
-  <description>RCLC Client</description>
+  <description>RCLC-MQTT Client</description>
   <maintainer email="201840103@email.daelim.ac.kr">reidlo</maintainer>
   <license>TODO: License declaration</license>
 
