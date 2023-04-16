@@ -12,3 +12,4 @@
 #define TIMEOUT     10000L
 
 volatile MQTTClient_deliveryToken deliveredtoken;
+int mqtt_publish(char * topic, char * payload);
