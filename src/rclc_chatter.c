@@ -1,5 +1,4 @@
-// #include "mqtt/mqtt.h"
-#include "ros/rcl_subscription.h"
+#include "ros/rcl_chatter.h"
 
 void chatter_callback(const void * msgin) {
   const std_msgs__msg__String * msg = (const std_msgs__msg__String *)msgin;
@@ -7,7 +6,7 @@ void chatter_callback(const void * msgin) {
     printf("%s Callback: msg NULL\n", LOG_ROS);
   } else {
     printf("%s Callback: I heard: %s\n", LOG_ROS, msg->data.data);
-    // mqtt_publish("/chatter", msg->data.data);
+    mqtt_publish("/chatter", msg->data.data);
   }
 }
 
@@ -58,7 +57,7 @@ int main(int argc, const char * argv[]) {
   executor = rclc_executor_get_zero_initialized_executor();
   
   unsigned int num_handles = 3;
-  printf("%s Debug : number of DDS handles :%u\n", LOG_ROS, num_handles);
+  printf("%s Debug : number of DDS handles :%u \n", LOG_ROS, num_handles);
   rclc_executor_init(&executor, &support.context, num_handles, &allocator);
 
   rc = rclc_executor_add_subscription(&executor, &rcl_subscription, &message, &chatter_callback, ON_NEW_DATA);

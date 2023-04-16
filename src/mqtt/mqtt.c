@@ -51,23 +51,23 @@ int mqtt_publish(char * topic, char * payload) {
 void delivered(void * context, MQTTClient_deliveryToken dt) {
     printf("%s subscription message with token value %d delivery confirmed \n", LOG_MQTT, dt);
     deliveredtoken = dt;
-};
+}
 
-int message_arrived(void * context, char * topic_name, int topic_length, MQTTClient_message * message) {
+int message_arrived(void * context, char * topic, int topic_length, MQTTClient_message * message) {
     printf("%s message arrived \n", LOG_MQTT);
-    printf("%s topic : %s \n", LOG_MQTT, topic_name);
+    printf("%s topic : %s \n", LOG_MQTT, topic);
     printf("%s message : %.*s \n", LOG_MQTT, message -> payloadlen, (char*)message -> payload);
     MQTTClient_freeMessage(&message);
-    MQTTClient_free(topic_name);
+    MQTTClient_free(topic);
     return 1;
-};
+}
 
 void connection_lost(void * context, char * cause) {
     printf("%s connection lost \n", LOG_MQTT);
     printf("%s cause : %s \n", LOG_MQTT, cause);
-};
+}
 
-int mqtt_subscription(int argc, char * argv[]) {
+int mqtt_subscribe(char * topic) {
     MQTTClient client;
     MQTTClient_connectOptions connection_opts = MQTTClient_connectOptions_initializer;
     int rc;
@@ -98,9 +98,9 @@ int mqtt_subscription(int argc, char * argv[]) {
         printf("%s connection established... %d \n", LOG_MQTT, rc);
     };
 
-    printf("%s subscribing to topic %s for client id %s using QoS %d \n\n", LOG_MQTT, TOPIC, CLIENTID, QOS);
+    printf("%s subscribing to topic %s for client id %s using QoS %d \n\n", LOG_MQTT, topic, CLIENTID, QOS);
     printf("%s Press Q<Enter> to quit \n\n", LOG_MQTT);
-    if((rc = MQTTClient_subscribe(client, TOPIC, QOS)) != MQTTCLIENT_SUCCESS) {
+    if((rc = MQTTClient_subscribe(client, topic, QOS)) != MQTTCLIENT_SUCCESS) {
         printf("%s failed to subscribe, return code %d \n", LOG_MQTT, rc);
         rc = EXIT_FAILURE;
     } else {
@@ -108,7 +108,7 @@ int mqtt_subscription(int argc, char * argv[]) {
         do {
             ch = getchar();
         } while(ch != 'Q' && ch != 'q');
-        if((rc = MQTTClient_unsubscribe(client, TOPIC)) != MQTTCLIENT_SUCCESS) {
+        if((rc = MQTTClient_unsubscribe(client, topic)) != MQTTCLIENT_SUCCESS) {
                 printf("%s failed to unsubscribe, return code %d \n", LOG_MQTT, rc);
                 rc = EXIT_FAILURE;
         };
@@ -123,9 +123,10 @@ int mqtt_subscription(int argc, char * argv[]) {
         MQTTClient_destroy(&client);
     exit:
         return rc;
-};
+}
 
 int main(int argc, char * argv[]) {
-    int rc = mqtt_publish("reidlo", "hello");
-    return rc;
+    int publish = mqtt_publish("reidlo", "hello");
+    int subscribe = mqtt_subscribe("test");
+    return 0;
 }
