@@ -6,7 +6,7 @@
     - [Prerequisites](#prerequisites)
     - [Install rclc](#install-rclc)
     - [Install Paho MQTT C Library](#install-paho-mqtt-c-library)
-    - [Colcon Build](#colcon-build)
+    - [Colcon Build](#clone--colcon-build)
     - [Run Test](#run-test)
 
 ## Environment
@@ -40,10 +40,13 @@ make
 sudo make install
 ```
 
-### Colcon Build
+### Clone & Colcon Build
 ```bash
+git clone https://github.com/reidlo5135/rclc_mqtt_client.git
 source /opt/ros/foxy/setup.bash
-colcon build --symlink-install
+cd ${your workspace}
+colcon build --packages-up-to rclc_mqtt_client
+cd rclc_mqtt_client
 source install/setup.bash
 ```
 
