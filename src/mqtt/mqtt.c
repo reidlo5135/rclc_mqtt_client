@@ -1,6 +1,6 @@
 #include "mqtt/mqtt.h"
 
-int mqtt_publish(char * topic, char * payload) {
+void mqtt_publish(char * topic, char * payload) {
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
@@ -19,28 +19,21 @@ int mqtt_publish(char * topic, char * payload) {
         exit(EXIT_FAILURE);
     }
  
-    pubmsg.payload = &payload;
+    pubmsg.payload = payload;
     pubmsg.payloadlen = (int)strlen(payload);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
     if ((rc = MQTTClient_publishMessage(client, topic, &pubmsg, &token)) != MQTTCLIENT_SUCCESS) {
-         printf("%s Failed to publish message, return code %d\n", LOG_MQTT, rc);
-         exit(EXIT_FAILURE);
+        printf("%s Failed to publish message, return code %d\n", LOG_MQTT, rc);
+        exit(EXIT_FAILURE);
     } else {
-        printf("%s published to [%s] with [%s] --length [%d]\n", LOG_MQTT, topic, payload, pubmsg.payloadlen);
+        printf("%s published to [%s] with [%s] --length [%d]\n", LOG_MQTT, topic, pubmsg.payload, pubmsg.payloadlen);
     }
  
     printf("%s Waiting for up to %d seconds for publication of %s on topic %s for client with ClientID: %s\n", LOG_MQTT, (int)(TIMEOUT/1000), payload, topic, CLIENTID);
     rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
     printf("%s Message with delivery token %d delivered\n", LOG_MQTT, token);
  
-    // if ((rc = MQTTClient_disconnect(client, 10000)) != MQTTCLIENT_SUCCESS) {
-    //     printf("%s Failed to disconnect, return code %d\n", LOG_MQTT, rc);
-    // } else {
-    //     printf("%s disconnected \n", LOG_MQTT);
-    // }
-      
-    // MQTTClient_destroy(&client);
     return rc;
 }
 
@@ -63,7 +56,7 @@ void connection_lost(char * cause) {
     printf("%s cause : %s \n", LOG_MQTT, cause);
 }
 
-int mqtt_subscribe(char * topic) {
+void mqtt_subscribe(char * topic) {
     MQTTClient client;
     MQTTClient_connectOptions connection_opts = MQTTClient_connectOptions_initializer;
     int rc;
