@@ -11,5 +11,5 @@
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
-int mqtt_publish(char * topic, char * payload);
-int mqtt_subscribe(char * topic);
+void mqtt_publish(char * topic, char * payload);
+void mqtt_subscribe(char * topic);

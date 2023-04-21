@@ -8,7 +8,7 @@
 #include "mqtt/mqtt.h"
 #include "MQTTClient.h"
 
-#define LOG_ROS "[ROS]" 
+#define LOG_ROS "[ROS]"
 
 typedef struct {
   int some_int;
