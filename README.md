@@ -43,8 +43,8 @@ sudo make install
 ### Clone & Colcon Build
 ```bash
 git clone https://github.com/reidlo5135/rclc_mqtt_client.git
-source /opt/ros/foxy/setup.bash
 cd ${your workspace}
+source /opt/ros/foxy/setup.bash
 colcon build --packages-up-to rclc_mqtt_client
 cd rclc_mqtt_client
 source install/setup.bash
