@@ -4,6 +4,7 @@
   - [Environment](#environment)
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
+    - [Install rclc](#install-rclc)
     - [Install Paho MQTT C Library](#install-paho-mqtt-c-library)
     - [Colcon Build](#colcon-build)
     - [Run Test](#run-test)
@@ -18,8 +19,18 @@
 ## Installation
 
 ### Prerequisites
-- [ROS2 setup](https://index.ros.org/doc/ros2/Installation/) for install rclnodejs by npm -
+- [ROS2 setup](https://index.ros.org/doc/ros2/Installation/) for install rclc -
   **INSTALL [ROS2 Foxy-Fitzroy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)**
+
+### Install rclc
+Before build rclc_mqtt_client, you need to clone & compile rclc
+```bash
+git clone -b foxy https://github.com/ros2/rclc.git
+cd rclc
+colcon build --symlink-install
+colcon build --packages-up-to rclc_examples
+source install/setup.bash
+```
 
 ### Install Paho MQTT C Library
 ```bash
