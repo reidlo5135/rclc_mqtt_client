@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project(rclc_mqtt_client)
 
-# Default to C99
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
@@ -19,11 +17,8 @@ find_package(ament_cmake_ros REQUIRED)
 find_package(rcl REQUIRED)
 find_package(rcl_lifecycle REQUIRED)
 find_package(rclc REQUIRED)
-find_package(rclc_lifecycle REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(lifecycle_msgs REQUIRED)
-find_package(example_interfaces REQUIRED)
-find_package(rclc_parameter REQUIRED)
 find_library(PAHO_MQTT_C_LIB paho-mqtt3c PATHS /usr/local/lib)
 
 include_directories(

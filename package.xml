@@ -9,20 +9,10 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>rcl</build_depend>
-  <build_depend>rclc</build_depend>
-  <build_depend>rclc_lifecycle</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>lifecycle_msgs</build_depend>
-  <build_depend>example_interfaces</build_depend>
-
-  <exec_depend>rcl</exec_depend>
-  <exec_depend>rclc</exec_depend>
-  <exec_depend>rclc_lifecycle</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>lifecycle_msgs</exec_depend>
-  <exec_depend>example_interfaces</exec_depend>
-
+  <depend>rcl</depend>
+  <depend>rclc</depend>
+  <depend>rclc_lifecycle</depend>
+  <depend>std_msgs</depend>
   <depend>rclc_parameter</depend>
 
   <export>
