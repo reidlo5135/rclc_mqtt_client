@@ -5,7 +5,7 @@
 
 #define LOG_MQTT    "[MQTT]"
 #define ADDRESS     "tcp://localhost:1883"
-#define CLIENTID    "1h1h"
+#define CLIENTID    "rclc-mqtt-bridge"
 #define QOS         1
 #define TIMEOUT     10000L
 
