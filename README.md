@@ -1,4 +1,4 @@
-# ROS2-MQTT Client - For ROS2-MQTT connection (rclc)
+# rclc-mqtt bridge client
 
 ## Document
   - [Environment](#environment)
