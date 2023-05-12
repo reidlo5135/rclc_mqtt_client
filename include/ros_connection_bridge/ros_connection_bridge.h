@@ -5,10 +5,7 @@
 #include <rclc/executor.h>
 #include <std_msgs/msg/string.h>
 
-#include "mqtt/mqtt.h"
-#include "MQTTClient.h"
-
-#define LOG_ROS "[ROS]"
+#define LOG_ROS_CONNECTION_BRIDGE "[ROS-CONNECTION-BRIDGE]"
 
 typedef struct {
   int some_int;

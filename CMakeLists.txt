@@ -27,16 +27,12 @@ include_directories(
   /usr/local/include
 )
 
-add_executable(rclc_subscription src/rclc_subscription.c)
-ament_target_dependencies(rclc_subscription rcl rclc std_msgs)
-
-add_executable(rclc_chatter src/rclc_chatter.c src/mqtt/mqtt.c)
-target_link_libraries(rclc_chatter ${PAHO_MQTT_C_LIB})
-ament_target_dependencies(rclc_chatter rcl rclc std_msgs) 
+add_executable(ros_connection_bridge src/ros_connection_bridge/ros_connection_bridge.c)
+target_link_libraries(ros_connection_bridge ${PAHO_MQTT_C_LIB})
+ament_target_dependencies(ros_connection_bridge rcl rclc std_msgs)
 
 install(TARGETS
-  rclc_subscription
-  rclc_chatter
+  ros_connection_bridge
   DESTINATION lib/${PROJECT_NAME}
 )
 
