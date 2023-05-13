@@ -7,11 +7,8 @@
 
 #define LOG_ROS_CONNECTION_BRIDGE "[ROS-CONNECTION-BRIDGE]"
 
-typedef struct {
-  rcl_publisher_t ros_publisher;
-  rcl_publisher_options_t ros_publisher_options;
-  const rosidl_message_type_support_t * message_type_support;
-  const char * topic;
-} ros_publisher_t;
-
-int ros_chatter_publisher_ini(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr);
+rcl_ret_t ros_chatter_publisher_ini(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr, rcl_publisher_t * ros_chatter_publisher_ptr);
+rcl_ret_t ros_chatter_publisher_fini(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr, rcl_publisher_t * ros_chatter_publisher_ptr);
+rcl_ret_t ros_chatter_subscription_ini(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr, rcl_subscription_t * ros_chatter_subscription_ptr);
+void ros_chatter_subscription_callback(const void * message_in);
+rcl_ret_t bridge_chatter_to_mqtt(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr);
