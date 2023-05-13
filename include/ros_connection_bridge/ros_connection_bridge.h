@@ -8,6 +8,10 @@
 #define LOG_ROS_CONNECTION_BRIDGE "[ROS-CONNECTION-BRIDGE]"
 
 typedef struct {
-  int some_int;
-  char * some_text;
-} sub_context_t;
+  rcl_publisher_t ros_publisher;
+  rcl_publisher_options_t ros_publisher_options;
+  const rosidl_message_type_support_t * message_type_support;
+  const char * topic;
+} ros_publisher_t;
+
+int ros_chatter_publisher_ini(rcl_ret_t rc, rcl_node_t * ros_connection_bridge_node_ptr);
